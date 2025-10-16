@@ -1,0 +1,5 @@
+# Core runtime requires only the Python standard library.
+# Install optional extras with:
+#   pip install -e .[airflow]
+# Development and tests:
+pytest>=8.2
