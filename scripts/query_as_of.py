@@ -1,7 +1,3 @@
-"""CLI helper to query the reference data snapshot as-of a knowledge time."""
-
-from __future__ import annotations
-
 import argparse
 from datetime import datetime, timezone
 from pathlib import Path
