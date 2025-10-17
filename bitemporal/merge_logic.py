@@ -14,8 +14,6 @@ Key concepts
   row already exists. Re-processing the same input therefore has no effect.
 """
 
-from __future__ import annotations
-
 import json
 import sqlite3
 from dataclasses import dataclass
