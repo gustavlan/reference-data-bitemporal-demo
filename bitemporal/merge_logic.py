@@ -1,4 +1,4 @@
-"""Core bi-temporal merge logic for reference data.
+"""Bi-temporal merge logic for reference data.
 
 This module provides helpers to store reference data with separate valid
 (event) and knowledge (transaction) timelines using a Slowly Changing
@@ -8,8 +8,8 @@ Key concepts
 ------------
 * Each record carries ``valid_from``/``valid_to`` (event timeline) and
   ``knowledge_from``/``knowledge_to`` (knowledge timeline).
-* New facts never overwrite history. Instead, we close knowledge windows for
-  superseded rows and insert new versions that reflect the latest knowledge.
+* New facts never overwrite history. We close knowledge windows for superseded
+  rows and insert new versions that reflect the latest knowledge.
 * Idempotency is enforced by skipping inserts when an identical open knowledge
   row already exists. Re-processing the same input therefore has no effect.
 """
