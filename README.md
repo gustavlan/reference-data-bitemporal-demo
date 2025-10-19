@@ -1,13 +1,6 @@
 # Bi-Temporal Reference Data Pipeline Demo
 
-Builds a minimal reference data pipeline that keeps a full bi-temporal history of every change. The project demonstrates how to:
-
-- Track both event/valid time (when a fact was true) and knowledge/transaction time (when we learned about the fact).
-- Apply Slowly Changing Dimension Type 2 (SCD2) rules for idempotent merges into SQLite, keeping history instead of overwriting rows.
-- Orchestrate extract → transform → load stages with Apache Airflow (Local Executor) or via a lightweight CLI runner.
-- Query “as-of” snapshots to recover what the system believed at any point in time, even after backfills or late-arriving corrections.
-- Guard against duplicate processing with an event-time watermark and thorough pytest coverage.
-
+Builds a minimal reference data pipeline that keeps a full bi-temporal history of every change. The project demonstrates how to track both event/valid time (when a fact was true) and knowledge/transaction time (when we learned about the fact) by applying Slowly Changing Dimension Type 2 (SCD2) rules for idempotent merges into SQLite, keeping history instead of overwriting rows. Query “as-of” snapshots to recover what the system believed at any point in time, even after backfills or late-arriving corrections. Guard against duplicate processing with an event-time watermark and thorough pytest coverage. Workflow orchestrated as extract → transform → load stages with Apache Airflow (Local Executor) or via a lightweight CLI runner.
 
 ## Architecture
 
