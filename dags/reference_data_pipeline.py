@@ -48,7 +48,6 @@ def transform_fn(**context: Any) -> List[Dict[str, Any]]:
     transformed: List[Dict[str, Any]] = []
     for record in records:
         payload = dict(record)
-        payload.setdefault("event_time", payload.get("event_time"))
         payload["knowledge_time"] = iso_now
         transformed.append(payload)
 

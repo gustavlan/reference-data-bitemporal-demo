@@ -22,19 +22,6 @@ def extract(path: Path) -> List[Dict[str, str]]:
         for row in reader:
             records.append(dict(row))
     return records
-
-
-def transform(records: List[Dict[str, Any]], knowledge_time: datetime) -> List[Dict[str, Any]]:
-    iso_now = knowledge_time.isoformat(timespec="seconds")
-    transformed: List[Dict[str, Any]] = []
-    for record in records:
-        payload = dict(record)
-        payload.setdefault("event_time", payload.get("event_time"))
-        payload["knowledge_time"] = iso_now
-        transformed.append(payload)
-    return transformed
-
-
 def load(records: List[Dict[str, Any]], knowledge_time: datetime, allow_late: bool) -> merge_logic.MergeSummary:
     conn = merge_logic.connect(DB_PATH)
     try:
@@ -73,8 +60,7 @@ def main() -> None:
 
     knowledge_time = datetime.now(tz=timezone.utc)
     records = extract(args.data_path)
-    transformed = transform(records, knowledge_time)
-    summary = load(transformed, knowledge_time, args.allow_late)
+    summary = load(records, knowledge_time, args.allow_late)
 
     print("Processed:", summary.to_dict())
 
