@@ -31,7 +31,6 @@ def load(records: List[Dict[str, Any]], knowledge_time: datetime, allow_late: bo
             knowledge_time=knowledge_time,
             allow_late_arrivals=allow_late,
         )
-        conn.commit()
     finally:
         conn.close()
     return summary
