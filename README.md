@@ -3,12 +3,11 @@
 Builds a minimal reference data pipeline that keeps a full bi-temporal history of every change. The project demonstrates how to track both event/valid time (when a fact was true) and knowledge/transaction time (when we learned about the fact) by applying Slowly Changing Dimension Type 2 (SCD2) rules for idempotent merges into SQLite, keeping history instead of overwriting rows. Query “as-of” snapshots to recover what the system believed at any point in time, even after backfills or late-arriving corrections. Guard against duplicate processing with an event-time watermark and thorough pytest coverage. Workflow orchestrated as extract → transform → load stages with Apache Airflow (Local Executor) or via a lightweight CLI runner.
 
 ## Architecture
-
-- **Data source** — Synthetic CSV (`data/synthetic_refdata.csv`) with a few securities out of order to illustrate late arrivals.
-- **Pipeline orchestration** — `dags/reference_data_pipeline.py` defines three Airflow tasks (extract, transform, load) that run sequentially under the Local Executor.
-- **Merge engine** — `bitemporal/merge_logic.py` wraps SQLite transactions to enforce SCD2 semantics, including overlap checks knowledge timeline updates and watermark persistence.
-- **Utilities** — A CLI runner (`scripts/run_pipeline.py`) for quick demos and a snapshot query helper (`scripts/query_as_of.py`).
-- **Tests** — Pytest suites verify merge behaviour, as-of queries and watermark controls.
+Data source: Synthetic CSV (`data/synthetic_refdata.csv`) with a few securities out of order to show late arrivals.
+Pipeline orchestration: `dags/reference_data_pipeline.py` defines three Airflow tasks (extract, transform, load) that run sequentially under the Local Executor.
+Merge engine: `bitemporal/merge_logic.py` wraps SQLite transactions to enforce SCD2 semantics, including overlap checks knowledge timeline updates and watermark persistence.
+Utilities: A CLI runner (`scripts/run_pipeline.py`) for quick demos and a snapshot query helper (`scripts/query_as_of.py`).
+Tests: Pytest to verify merge behaviour, as of queries and watermark controls.
 
 ## Repository Layout
 
