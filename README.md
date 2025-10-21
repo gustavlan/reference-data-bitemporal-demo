@@ -4,9 +4,13 @@ Builds a minimal reference data pipeline that keeps a full bi-temporal history o
 
 ## Architecture
 Data source: Synthetic CSV (`data/synthetic_refdata.csv`) with a few securities out of order to show late arrivals.
+
 Pipeline orchestration: `dags/reference_data_pipeline.py` defines three Airflow tasks (extract, transform, load) that run sequentially under the Local Executor.
+
 Merge engine: `bitemporal/merge_logic.py` wraps SQLite transactions to enforce SCD2 semantics, including overlap checks knowledge timeline updates and watermark persistence.
+
 Utilities: A CLI runner (`scripts/run_pipeline.py`) for quick demos and a snapshot query helper (`scripts/query_as_of.py`).
+
 Tests: Pytest to verify merge behaviour, as of queries and watermark controls.
 
 ## Repository Layout
@@ -48,11 +52,7 @@ cd reference-data-bitemporal-demo
 python scripts/run_pipeline.py
 ```
 
-- Reads `data/synthetic_refdata.csv`
-- Applies a consistent knowledge timestamp
-- Merges everything into `reference_data.db`
-
-Re-run to observe idempotency, no duplicate rows are produced.
+This will read `data/synthetic_refdata.csv`, apply a consistent knowledge timestamp, and merge everything into `reference_data.db`. Can be rerun to observe idempotency (no duplicate rows are created).
 
 ### Controlled Backfills
 
@@ -91,8 +91,10 @@ python scripts/query_as_of.py 2025-04-10T00:00:00Z --effective-time 2025-02-20T0
 The underlying SQL filters on both knowledge and valid timelines:
 
 $$
-	ext{knowledge\_from} \le t_k < \text{knowledge\_to}\,(\text{or null})\\
-	ext{valid\_from} \le t_v < \text{valid\_to}\,(\text{or null})
+\begin{aligned}
+\mathrm{knowledge\_from} &\le t_k < \mathrm{knowledge\_to}\;(\text{or null}) \\
+\mathrm{valid\_from} &\le t_v < \mathrm{valid\_to}\;(\text{or null})
+\end{aligned}
 $$
 
 ## Tests & Quality Gates
@@ -104,11 +106,7 @@ cd reference-data-bitemporal-demo
 python -m pytest
 ```
 
-The tests cover:
-- New inserts vs. updates (including corrections at the same event boundary)
-- Backfills that split existing timelines
-- As-of knowledge/effective date queries
-- Watermark enforcement and deliberate overrides
+The tests cover: New inserts vs. updates (including corrections at the same event boundary), backfills that split existing timelines, as of knowledge/effective date queries, and atermark enforcement and deliberate overrides
 
 ## Synthetic Data & Schema
 
