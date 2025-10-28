@@ -41,7 +41,7 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e .[dev]
 ```
 
-This installs pytest and, if requested, Airflow with the Local Executor.
+This installs pytest and optionally Airflow with the Local Executor.
 
 ## Running the Pipeline Without Airflow
 
@@ -99,7 +99,7 @@ $$
 
 ## Tests & Quality Gates
 
-All critical behaviours ship with pytest coverage. Execute the suite from the project root:
+All critical behaviours come with pytest coverage. Run from project root:
 
 ```bash
 cd reference-data-bitemporal-demo
